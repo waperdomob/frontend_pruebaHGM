@@ -20,7 +20,7 @@ export default function Register() {
   function registrar(data) {
     // ENVIAR PETICION PARA CREAR
     axios
-      .post(URL_BASE + "/usuario", data)
+      .post(URL_BASE + "/usuarios", data)
       .then((res) => {
         console.log(res)
         AVISO.fire({ icon: "success", text: "Se registro el usuario" })
