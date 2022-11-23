@@ -1,5 +1,4 @@
 import Swal from "sweetalert2"
-import JwtDecode from "jwt-decode"
 
 
 export const URL_BASE = "http://localhost:8000" //DESARROLLO
@@ -15,6 +14,4 @@ export const AVISO = Swal.mixin({
     toast.addEventListener('mouseleave', Swal.resumeTimer)
   }
 })
-
-export const payload = JwtDecode(sessionStorage.getItem("token"))
     

@@ -1,147 +1,101 @@
-import React, { useState } from "react";
-//dependencies
+import React from "react"
+import axios from "axios"
 import axiosInstance from "../axios";
-import { useNavigate } from "react-router-dom";
-import { Login } from "../services/auth";
-//MaterialUI
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-//import FormControlLabel from "@material-ui/core/FormControlLabel";
-//import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Notification from "./Notificacion";
+import { useNavigate } from "react-router-dom"
+import { URL_BASE } from "../config/constants"
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: theme.palette.background.contrastText
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),    
-  },
-  texto: {
-    
-    backgroundColor: theme.palette.common.white,
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+export default function Login({setAppData}) {
+  const navigate = useNavigate()
 
-export default function SignIn() {
-  const history = useNavigate();
+  function submitForm(event) {
+    event.preventDefault()
 
-  const [errorMessage, setErrorMessage] = useState("");
-  const initialFormData = Object.freeze({
-    email: "",
-    password: "",
-  });
-  const Notificacion = Notification();
-  const [formData, updateFormData] = useState(initialFormData);
+    const { email, password } = event.target
 
-  const handleChange = (e) => {
-    updateFormData({
-      ...formData,
-      [e.target.name]: e.target.value.trim(),
-    });
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await Login({
-        username: formData.email,
-        password: formData.password,
-      }).then((res) => {
-        localStorage.setItem("access_token", res.data.access_token);
+    axios
+      .post(URL_BASE + "/login/", {
+        username: email.value,
+        password: password.value,
+      })
+      .then((res) => {
+        localStorage.setItem("token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
         axiosInstance.defaults.headers["Authorization"] =
           "JWT " + localStorage.getItem("access_token");
-        history("/");
-
-        window.location.reload();
-      });
-    } catch (error) {
-      setErrorMessage("Credenciales erroneas");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
-
-  const classes = useStyles();
+        setAppData(prev => ({ ...prev, isAuth: true }) )
+        navigate("/admin")
+      })
+      .catch((err) => {
+        console.log(err)
+        alert("Credenciales invalidas")
+      })
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}></Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            className={classes.texto} 
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleChange}
-          />
-          <TextField
-          className={classes.texto}
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleLogin}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-        <Notificacion message={errorMessage} />
+    <div className="login-page" style={{ minHeight: "465.652px" }}>
+      <div className="login-box">
+        <div className="card card-outline card-primary">
+          <div className="card-header text-center">
+            <a href="../../index2.html" className="h1">
+              <b>FERRETERIA HGM</b>
+            </a>
+          </div>
+          <div className="card-body">
+            <p className="login-box-msg">Inicia sesión</p>
+            <form onSubmit={submitForm}>
+              <div className="input-group mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Correo electrónico"
+                  name="email"
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-envelope" />
+                  </div>
+                </div>
+              </div>
+              <div className="input-group mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Contraseña"
+                  name="password"
+                />
+                <div className="input-group-append">
+                  <div className="input-group-text">
+                    <span className="fas fa-lock" />
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-8">
+                  <div className="icheck-primary">
+                    <input type="checkbox" id="remember" />
+                    <label htmlFor="remember">Recuerdame</label>
+                  </div>
+                </div>
+                <div className="col-4">
+                  <button type="submit" className="btn btn-primary btn-block">
+                    Iniciar sesión
+                  </button>
+                </div>
+              </div>
+            </form>
+            <p className="mb-1">
+              <a href="forgot-password.html">Olvidé mi contraseña</a>
+            </p>
+            <p className="mb-0">
+              <a href="register.html" className="text-center">
+                Registrar un nuevo usuario
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
-    </Container>
-  );
+    </div>
+  )
 }

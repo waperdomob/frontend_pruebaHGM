@@ -1,0 +1,19 @@
+#tituloModal {
+    color: black;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+#bodyModal {
+    color: black;
+    font-size: small;
+}
+
+#tituloName {
+    font-size: "24px";
+    margin-bottom: 2rem;
+}
+
+.container1 {
+    margin-top: 4rem;
+}

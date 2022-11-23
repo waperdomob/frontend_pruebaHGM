@@ -10,9 +10,9 @@ export default function Maintenance() {
           src="https://demo.wpbeaveraddons.com/wp-content/uploads/2018/02/main-vector.png"
           alt="maintenance"
         />
-        <span className="pp-infobox-title-prefix">PROXIMAMENTE ACA PODRAS COMPRAR ARTICULOS DE MASCOTAS</span>
+        <span className="pp-infobox-title-prefix">FERRETERIA HGM ACÁ PODRAS REGISTRAR LAS ENTRADAS Y SALIDAS DE PRODUCTOS</span>
         <div className="pp-infobox-title-wrapper">
-          <h3 className="pp-infobox-title">El sitio web se encuentra en construccion</h3>
+          <h3 className="pp-infobox-title">Inicia sesión para realizar los procesos.</h3>
         </div>
      
       </div>

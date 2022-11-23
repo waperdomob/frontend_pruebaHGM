@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { AVISO, URL_BASE } from "../config/constants"
 
 export default function Register() {
-  //const token = sessionStorage.getItem("token")
+  //const token = localStorage.getItem("token")
   const navigate = useNavigate()
 
   const {
@@ -24,7 +24,7 @@ export default function Register() {
       .then((res) => {
         console.log(res)
         AVISO.fire({ icon: "success", text: "Se registro el usuario" })
-        navigate("/admin")
+        navigate("/login")
       })
       .catch((err) => {
         console.error(err)
@@ -38,9 +38,9 @@ export default function Register() {
       <div className="register-box">
         <div className="card card-outline card-primary">
           <div className="card-header text-center">
-            <a href="../../index2.html" className="h1">
-              <b>Tienda de mascotas</b>
-            </a>
+            <Link to="/" className="text-center">
+              Ferreteria
+            </Link>
           </div>
           <div className="card-body">
             <p className="login-box-msg">Registrate</p>

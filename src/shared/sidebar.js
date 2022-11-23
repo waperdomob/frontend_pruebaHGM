@@ -2,15 +2,14 @@ import React, { useState } from "react"
 import { MdOutlinePets } from "react-icons/md"
 import { FiUser } from "react-icons/fi"
 import {  NavLink } from "react-router-dom"
-//import jwtDecode from "jwt-decode"
-import { payload } from "../config/constants"
 
 export default function Sidebar() {
 
   const [itemUsuarioOpen, setItemUsuarioOpen] = useState(false)
-  
+  const data = localStorage.getItem("user");
+  const user = JSON.parse(data);
  // let itemUsuarioOpen = false
-
+  console.log(user);
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a href="index3.html" className="brand-link">
@@ -22,10 +21,8 @@ export default function Sidebar() {
           <div className="image">
             <FiUser size={24} color="white" />
           </div>
-          <div className="info">
-            <a href="#" className="d-block">
-              { payload.nombre && (payload.nombres + " " + payload.apellidos) }
-            </a>
+          <div className="info" style={{color:'white'}}>            
+              {user.first_name}            
           </div>
         </div>
         <nav className="mt-2">
@@ -33,11 +30,10 @@ export default function Sidebar() {
             className="nav nav-pills nav-sidebar flex-column"
             data-widget="treeview"
             role="menu">
-            { payload.tipo === "ADMIN" && <li className={ "nav-item"+ ( itemUsuarioOpen ? " menu-open" : "") }>
+             <li className= "nav-item">
               <div className="nav-link active" onClick={ ()=>{
                 setItemUsuarioOpen(!itemUsuarioOpen)
-                console.log(itemUsuarioOpen)
-                
+                console.log(itemUsuarioOpen)                
               } }>
                 <i className="nav-icon fas fa-tachometer-alt" />
                 <p>
@@ -59,7 +55,7 @@ export default function Sidebar() {
                   </NavLink>
                 </li>
               </ul>
-            </li>}
+            </li>
             <li className={ "nav-item"+ ( itemUsuarioOpen ? " menu-open" : "") }>
               <div className="nav-link active" onClick={ ()=>{
                 setItemUsuarioOpen(!itemUsuarioOpen)
@@ -80,7 +76,7 @@ export default function Sidebar() {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/admin/producto/all" className="nav-link" end>
+                  <NavLink to="/admin/productos" className="nav-link" end>
                     <i className="far fa-circle nav-icon" />
                     <p>Listar</p>
                   </NavLink>
