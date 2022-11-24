@@ -45,3 +45,10 @@ export const DeleteProducto = async (ProductoID) => {
   return await axiosInstance.delete(`${API_URL}${ProductoID}`);
 
 };
+
+export const ListSubCategorias = async () => {
+  const response = await axiosInstance.get("http://127.0.0.1:8000/subCategorias/");
+  if (response.status === 200) {
+    return await response.data;
+  }
+};

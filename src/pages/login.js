@@ -23,7 +23,7 @@ export default function Login({setAppData}) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
         axiosInstance.defaults.headers["Authorization"] =
-          "JWT " + localStorage.getItem("access_token");
+          "JWT " + localStorage.getItem("token");
         setAppData(prev => ({ ...prev, isAuth: true }) )
         navigate("/admin")
       })

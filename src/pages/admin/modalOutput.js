@@ -16,7 +16,7 @@ const ModalSalidas = ({sucursales, handleClose, show, ...props}) => {
   const history = useNavigate();
   const [salida, setSalida] = useState({
     sucursal: null,
-    producto: props.producto,
+    producto: null,
     cantidad: null
   });
   
@@ -34,11 +34,19 @@ const ModalSalidas = ({sucursales, handleClose, show, ...props}) => {
         setSalida({ ...salida, [name]: value });
   };
 
+  const handleSelectProducto = (e) => {
+    let target = e.target;
+    let name = target.name;
+    //here
+    let value = Array.from(target.selectedOptions, (option) => option.value);
+        setSalida({ ...salida, [name]: value });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     try {
-        formData.append("producto", salida.producto.id);
+        formData.append("producto", salida.producto);
         formData.append("sucursal", salida.sucursal);
         formData.append("usuario", props.user.id);
         formData.append("cantidad", salida.cantidad);
@@ -68,13 +76,19 @@ const ModalSalidas = ({sucursales, handleClose, show, ...props}) => {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Producto: </Form.Label>
-          <input
+          <Form.Select
             className="form-control"
             name="producto"
             autoFocus
-            value={props.producto.producto}
-            readOnly
-          />
+            onChange={handleSelectProducto}
+          >
+            <option>Seleccione un producto</option>
+            {props.productos && props.productos.map((producto, index) => (
+              <option key={index} value={producto.id}>
+                {producto.producto}
+              </option>
+            ))}
+          </Form.Select>
         </Form.Group>
         <Form.Group>
         <Form.Label>Sucursal: </Form.Label>
@@ -108,7 +122,7 @@ const ModalSalidas = ({sucursales, handleClose, show, ...props}) => {
           Close
         </Button>
         <Button variant="primary" type="submit" onClick={handleClose}>
-          Save Changes
+          Enviar
         </Button>
       </Modal.Footer>
       </Form>

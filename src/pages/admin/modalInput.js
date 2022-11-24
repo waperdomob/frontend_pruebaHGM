@@ -15,15 +15,22 @@ import "../../styles/modalsProfile.css";
 const ModalEntrada = ({ handleClose, show, ...props}) => {
   const history = useNavigate();
   const [entrada, setEntrada] = useState({
-    producto: props.producto,
+    producto: null,
     cantidad: null
   });
-  console.log(props.producto);
   const handleInputChange = (e) => {
     let target = e.target;
     let name = target.name;    
     setEntrada({ ...entrada, [name]: e.target.value });
     
+  };
+
+  const handleSelectProducto = (e) => {
+    let target = e.target;
+    let name = target.name;
+    //here
+    let value = Array.from(target.selectedOptions, (option) => option.value);
+    setEntrada({ ...entrada, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -59,13 +66,19 @@ const ModalEntrada = ({ handleClose, show, ...props}) => {
       <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>Producto: </Form.Label>
-          <input
+          <Form.Select
             className="form-control"
             name="producto"
             autoFocus
-            value={props.producto.producto}
-            readOnly
-          />
+            onChange={handleSelectProducto}
+          >
+            <option>Seleccione un producto</option>
+            {props.productos && props.productos.map((producto, index) => (
+              <option key={index} value={producto.id}>
+                {producto.producto}
+              </option>
+            ))}
+          </Form.Select>
         </Form.Group>
         <Form.Group>
         <Form.Label>Cantidad: </Form.Label>
@@ -83,7 +96,7 @@ const ModalEntrada = ({ handleClose, show, ...props}) => {
           Close
         </Button>
         <Button variant="primary" type="submit" onClick={handleClose}>
-          Save Changes
+          Guardar
         </Button>
       </Modal.Footer>
       </Form>

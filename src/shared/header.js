@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 export default function Header( {titulo} ) {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
-  console.log(user);
   if (!user) {
     return (
       <section className="content-header">

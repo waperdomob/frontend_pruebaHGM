@@ -9,7 +9,6 @@ export default function Sidebar() {
   const data = localStorage.getItem("user");
   const user = JSON.parse(data);
  // let itemUsuarioOpen = false
-  console.log(user);
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4">
       <a href="index3.html" className="brand-link">
